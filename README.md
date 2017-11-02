@@ -10,6 +10,7 @@ Este ejemplo de api desarrollada con SLIM simula un TodoList que iremos creandol
   de configuración e inyectandolos por el constructor.
 - Añadida migracion y Seeds del SPRINT1
 - Añadido la gestion de la API de Categorias (categories)
+- Añadido la posibilidad de trabajar con FluentPDO o PDO, configurable en el fichero de configuracion.
 
 
 ## Instalacion SPRINT 1
