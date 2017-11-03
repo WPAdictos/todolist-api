@@ -2,6 +2,7 @@
 
 use \src\controllers\HomeController;
 use \src\controllers\CategoryController;
+use \src\controllers\TodoController;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
@@ -22,6 +23,14 @@ $app->group('/v1', function(){
         $this->post('', CategoryController::class . ':create');
         $this->put('/{id}',  CategoryController::class . ':update');
         $this->delete('/{id}',  CategoryController::class . ':delete');
+    });
+
+    $this->group('/todo', function () {
+        $this->get('', TodoController::class . ':index');
+        $this->get('/{id}', TodoController::class . ':show');   
+        $this->post('', TodoController::class . ':create');
+        $this->put('/{id}',  TodoController::class . ':update');
+        $this->delete('/{id}',  TodoController::class . ':delete');
     });
 });
 
