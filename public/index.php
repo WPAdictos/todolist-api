@@ -1,13 +1,7 @@
 <?php
 
 /*
-Instrucciones:
-- Descargar proyecto
-- Ejecutar composer install
-- Ajustar parametros de base de datos en fichero config.php (development), usuario contraseña. Tambien  en fichero phinx.yml
-- Ejecutar las migraciones con este comando: vendor/bin/phinx migrate -e development
-  (Para hacer rollback o marcha atras) vendor/bin/phinx rollback -e development
-- Cargar las seeds con este comando:  vendor/bin/phinx seed:run -s Sprint1Seeder
+API Todo List
 
 */
 
