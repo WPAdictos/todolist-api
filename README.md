@@ -12,8 +12,13 @@ Este ejemplo de api desarrollada con SLIM simula un TodoList que iremos creandol
 - Añadido la gestion de la API de Categorias (categories)
 - Añadido la posibilidad de trabajar con FluentPDO o PDO, configurable en el fichero de configuracion.
 
+**SPRINT 1.1:**
+- Añadido Controlador, rutas y modelo de la tabla TodoList
+- Añadido sanitizacion en la gestion de Categorias/Todolist
+- Añadido en el metodo GET/ GETALL de TodoList dos formas de presentar los datos: modo basic y modo verbose con mas detalles. Hay que activarlo por querystring
 
-## Instalacion SPRINT 1
+
+## Instalacion SPRINT 1/ SPRINT 1.1
 1. Descargar una copia a tu ordenador.
 2. Ejecutar en la terminal: *composer install* para descargar dependencias.
 3. Ajustar configuracion de BBDD en */src/config/development/config.php* y en el fichero que se usa para las migraciones *phinx.yml*
