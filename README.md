@@ -16,6 +16,7 @@ Este ejemplo de api desarrollada con SLIM simula un TodoList que iremos creandol
 - Añadido Controlador, rutas y modelo de la tabla TodoList
 - Añadido sanitizacion en la gestion de Categorias/Todolist
 - Añadido en el metodo GET/ GETALL de TodoList dos formas de presentar los datos: modo basic y modo verbose con mas detalles. Hay que activarlo por querystring
+- Simplificacion en el container, la obtencion de los datos de conexion de la base de datos, para los Modelos
 
 
 ## Instalacion SPRINT 1/ SPRINT 1.1
