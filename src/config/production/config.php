@@ -10,7 +10,7 @@ $config['addContentLengthHeader'] = false;
 //Configuracion Database Modelos
 $config['dblibmodels']= 'fluentpdo';              //fluentpdo || pdo
 $config['db']['host']   = "localhost";
-$config['db']['user']   = "root";
-$config['db']['dbname'] = "todolist";
+$config['db']['user']   = "izarwuqm_test";
+$config['db']['dbname'] = "izarwuqm_test";
 
 $config['force_https']='true';

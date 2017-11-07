@@ -1,0 +1,50 @@
+{% extends '/layouts/app.twig' %}
+
+{% block titulo %}Administracion - {{ titulo }}{% endblock %}
+
+
+{% block content %}
+    <h4>Controller: Admin : index </h4>
+
+    Nombre {{ nombre }}  con edad {{ edad }} <br>
+
+      
+    {% set foo = 'bar' %}
+
+    {% if edad > 18 %}
+
+      <strong>eres mayor de edad</strong>
+
+    {% endif %}
+
+    <hr>
+    Comprobacion de sesion (con variable global de plantilla)
+    {% if auth.issignin %}
+      <strong>estas logueado</strong>
+    {% endif %}
+
+    <hr>
+
+    <h4>Listado de categorias</h4>
+
+    {% for categoria in categorias %}
+
+      {{ categoria.id }} --- {{ categoria.categoryname}} <br>
+
+    {% endfor %}
+
+    <hr>
+    <a href="{{ path_for('users', { 'name': 'josh' }) }}">Josh</a>
+
+    <hr>
+    {{ foo }}
+
+{% endblock %}
+
+
+
+{% block content2 %}
+
+  <p>Probando otro bloque</p>
+      
+{% endblock %}

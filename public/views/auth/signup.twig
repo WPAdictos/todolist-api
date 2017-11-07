@@ -1,0 +1,16 @@
+{% extends '/layouts/app.twig' %}
+
+
+{% block content %}
+
+<h2>Formulario de registro</h2>
+
+    <form action="{{ path_for('auth.signup') }}" method="post">
+        Email:<br>
+        <input type="text" name="email" ><br>
+        Password:<br>
+        <input type="password" name="password" ><br><br>
+        <input type="submit" value="Registrar">
+    </form>
+    
+{% endblock %}

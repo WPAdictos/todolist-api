@@ -1,28 +1,49 @@
 <?php
 namespace src\controllers;
+use src\controllers\BaseController;
+use Exception;
 
-class TodoController extends BaseController{
+final class TodoController extends BaseController{
 
     public function index($request, $response, $args)
-    {      
+    {     
+        //Parametros 
         //?list=basic || ?list=verbose
-        $tipo=$request->getQueryParam('list',$default = 'basic');
+        //?limit=N
+        //?offset=N
+       try{       
+        $tipo=htmlspecialchars($request->getQueryParam('list',$default = 'basic'));
+        $limit=(int)$request->getQueryParam('limit');
+        $offset=(int)$request->getQueryParam('offset');
+
         $todolist = $this->container->get('TodoModel');
-        return $response->withJson($todolist->getAll($tipo), 200);
+        $response=$this->container->get('cache')->withEtag($response, $todolist->lastUpdated());
+        $response = $this->container->get('cache')->withExpires( $response, time() + 3600); 
+        return  $response->withJson($todolist->getAll($tipo,$limit,$offset), 200);
+       }catch (Exception $e){
+          $this->container->get('errorlog')->error($e->getMessage());
+          return $response->withJson(array('error'=>'Ha ocurrido un error consulte al administrador'), 500);
+       }
     }
 
     public function show($request, $response, $args)
     {
-        $todolist = $this->container->get('TodoModel');
-        if($data=$todolist->findById((int) $args['id'])) {
-            return $response->withJson($data, 200);
-         }else{
-            return $response->withJson(array('error'=>'Tarea no encontrada'), 404);
-         }  
+        try{    
+            $todolist = $this->container->get('TodoModel');
+            if($data=$todolist->findById((int) $args['id'])) {
+                return $response->withJson($data, 200);
+            }else{
+                return $response->withJson(array('error'=>'Tarea no encontrada'), 404);
+            }  
+        }catch (Exception $e){
+            $this->container->get('errorlog')->error($e->getMessage());
+            return $response->withJson(array('error'=>'Ha ocurrido un error consulte al administrador'), 500);
+         }
     }
 
     public function create($request, $response, $args)
     {
+       try{
         $inputVars= $request->getParsedBody();
         
         if( !isset($inputVars['categories_id']) or empty($inputVars['categories_id']))
@@ -52,11 +73,16 @@ class TodoController extends BaseController{
              $data['error'] = 'Se ha producido un error en la insercion.';
              return $response->withJson($data,400);
          }
+       }catch (Exception $e){
+            $this->container->get('errorlog')->error($e->getMessage());
+            return $response->withJson(array('error'=>'Ha ocurrido un error consulte al administrador'), 500);
+         }
        
     }
 
     public function update($request, $response, $args)
     {
+       try{
         $inputVars= $request->getParsedBody();
         $values=array();
         if(isset($inputVars['categories_id']) and !empty($inputVars['categories_id']))
@@ -78,15 +104,24 @@ class TodoController extends BaseController{
                 return $response->withJson(array('error'=>'Se ha producido un error en la actualizacion'), 400);
             }   
         }
+       }catch (Exception $e){
+        $this->container->get('errorlog')->error($e->getMessage());
+        return $response->withJson(array('error'=>'Ha ocurrido un error consulte al administrador'), 500);
+       }
     }
 
     public function delete($request, $response, $args)
     {
+       try{
         $todolist = $this->container->get('TodoModel');
         if($todolist->delete((int) $args['id'])) {
             return $response->withJson(array('operacion'=>'Registro borrado correctamente'), 200);
          }else{
             return $response->withJson(array('error'=>'Se ha producido un error en el borrado.'), 400);
-         }      
+         }   
+       }catch (Exception $e){
+          $this->container->get('errorlog')->error($e->getMessage());
+          return $response->withJson(array('error'=>'Ha ocurrido un error consulte al administrador'), 500);
+         }   
     }
 }

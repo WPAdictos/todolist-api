@@ -1,0 +1,5 @@
+- auth/signup  registro de usuarios
+- Autenticacion y desarrollo del panel de administracion
+- Crear un API Rate Limiter basado en el token de seguridad https://github.com/pabloroca/slim3-apiratelimit-middleware
+- Añadir COORS
+- Añdir CRSF formularios: https://www.youtube.com/watch?v=zLQY2S4b9Fc&list=PLfdtiltiRHWGc_yY90XRdq6mRww042aEC&index=15

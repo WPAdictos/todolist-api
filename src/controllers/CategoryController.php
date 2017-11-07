@@ -1,9 +1,9 @@
 <?php
 namespace src\controllers;
+use src\controllers\BaseController;
 
 
-
-class CategoryController extends BaseController{
+final class CategoryController extends BaseController{
 
 
 

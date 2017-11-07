@@ -15,6 +15,7 @@ class Sprint1Seeder extends AbstractSeed
      */
     public function run()
     {
+    // $con = $this->adapter->getConnection();
       //Creamos unas categorias
       $data = [
         [
@@ -29,26 +30,48 @@ class Sprint1Seeder extends AbstractSeed
      ];
 
     $posts = $this->table('categories');
-    $posts->insert($data)
-          ->save();
+    $posts->insert($data)->save();
 
     // creamos unos usuarios
-    $data = [
-        [
-            'username'    => 'kike@izarmedia.es',
+    $users = $this->table('accounts');
+    $usersinfo = $this->table('accounts_info');
+   
+    $data = ['username'    => 'kike@izarmedia.es',
             'hashed' =>  password_hash("kike", PASSWORD_DEFAULT),
-        ],[
-            'username'    => 'sergio@izarmedia.es',
+            ];
+    $users->insert($data)->save();
+    $lastID= $this->fetchRow("select LAST_INSERT_ID()")[0];
+    $data =[
+           'accounts_id' => $lastID,
+           'scope' => serialize([
+                     'todo' => 5,
+                     'categ'=> 5
+           ])
+    ];
+    $usersinfo->insert($data)->save();
+   
+   
+    $data = ['username'    => 'sergio@izarmedia.es',
             'hashed' => password_hash("sergio", PASSWORD_DEFAULT),
-        ]
-     ];
-     $posts = $this->table('accounts');
-     $posts->insert($data)
-           ->save();
- 
+            ];
+    
+    $users->insert($data)->save();
+    $lastID= $this->fetchRow("select LAST_INSERT_ID()")[0];
+    $data =[
+           'accounts_id' => $lastID,
+           'scope' => serialize([
+                     'todo' => 3,
+                     'categ'=> 1
+           ])
+    ];
+    $usersinfo->insert($data)->save();     
+
+
+
+
     //Creamos unas 30 todolist 
     $faker = Faker\Factory::create('es_ES');
-    for ($i=0; $i < 30; $i++) {
+    for ($i=0; $i < 50; $i++) {
         $data=array();
         $data['categories_id']=rand(1,4);
         $data['accounts_id']=rand(1,2);
@@ -57,7 +80,7 @@ class Sprint1Seeder extends AbstractSeed
         $this->insert('todolist', $data);
     }
 
-
+     //$this->getAdapter()->getConnection()->lastInsertId();
 
     }
 }
