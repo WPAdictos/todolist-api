@@ -1,6 +1,9 @@
 <?php
 namespace src\controllers;
 use src\controllers\BaseController;
+use Firebase\JWT\JWT;
+use Tuupola\Base62;
+use DateTime;
 
 
 final class AuthController extends BaseController{
@@ -49,12 +52,36 @@ final class AuthController extends BaseController{
     }
 
     private function attempt($username,$password){
-        $user = $this->container->get('UserModel')->findByUsername($username);
-      
+        $usermodel = $this->container->get('UserModel');
+        $user= $usermodel->findByUsername($username);
         if(!$user) return false;
 
         if(password_verify($password,$user->hashed)){
-             $_SESSION['user']= $user;
+            //Generams el token y vamos a enviarlo a cookie
+            $now = new DateTime();
+            $future = new DateTime("now +1 year");
+            //$server = $request->getServerParams();
+            
+            $jti = (new Base62)->encode(random_bytes(16));
+    
+            //recuperamos el scope del usuario autenticado
+    
+            $scope=$usermodel->getScope( $user->username );
+    
+            $payload = [
+                "iat" => $now->getTimeStamp(),
+                "exp" => $future->getTimeStamp(),
+                "jti" => $jti,
+                "sub" => $user->username ,
+                "scope" => $scope
+            ];
+            
+     
+            $secret = getenv("JWT_SECRET");
+            $token = JWT::encode($payload, $secret, "HS256");
+
+             setcookie("token", $token, time()+3600,'/');
+             //$_SESSION['user']= $user;
              return true;
         }else{
             return false;

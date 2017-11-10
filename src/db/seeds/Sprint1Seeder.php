@@ -71,7 +71,7 @@ class Sprint1Seeder extends AbstractSeed
 
     //Creamos unas 30 todolist 
     $faker = Faker\Factory::create('es_ES');
-    for ($i=0; $i < 50; $i++) {
+    for ($i=0; $i < 100; $i++) {
         $data=array();
         $data['categories_id']=rand(1,4);
         $data['accounts_id']=rand(1,2);

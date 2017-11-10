@@ -1,6 +1,10 @@
 {% extends '/layouts/app.twig' %}
 
-{% block titulo %}Administracion - {{ titulo }}{% endblock %}
+{% block titulo %}
+
+Administracion - {{ titulo }}
+
+{% endblock %}
 
 
 {% block content %}
@@ -21,6 +25,8 @@
     Comprobacion de sesion (con variable global de plantilla)
     {% if auth.issignin %}
       <strong>estas logueado</strong>
+      <br>
+      {{ saludar }}
     {% endif %}
 
     <hr>
@@ -32,6 +38,9 @@
       {{ categoria.id }} --- {{ categoria.categoryname}} <br>
 
     {% endfor %}
+
+    <hr>
+    {{ categorias | json_encode(constant('JSON_PRETTY_PRINT')) }}
 
     <hr>
     <a href="{{ path_for('users', { 'name': 'josh' }) }}">Josh</a>

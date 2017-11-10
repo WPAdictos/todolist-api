@@ -10,8 +10,11 @@ $container = $app->getContainer();
 //Creacion array opciones de conexion a la base de datos
 $config=$container['settings'];
 $pass="";
-if(ENTORNO === 'development')  $pass=getenv("DB_PASS_DEV"); 
-   else $pass=getenv("DB_PASS_PRO");
+if (ENTORNO === 'development') {
+    $pass=getenv("DB_PASS_DEV");
+} else {
+    $pass=getenv("DB_PASS_PRO");
+}
 $options=array(
     'dblib' => $config['dblibmodels'],
     'host'  => $config['db']['host'],
@@ -21,20 +24,20 @@ $options=array(
 );
 
 // Modelos de datos
-$container['CategoriesModel'] = function ($container) use($options){
+$container['CategoriesModel'] = function ($container) use ($options) {
      return new CategoriesModel($options);
 };
 
 
-$container['TodoModel'] = function ($container)  use($options) {
-    try{
-       return new TodoModel($options);
-    }catch (Exception $e){
+$container['TodoModel'] = function ($container) use ($options) {
+    try {
+        return new TodoModel($options);
+    } catch (Exception $e) {
         throw $e;
     }
 };
 
-$container['UserModel'] = function ($container)  use($options) {
+$container['UserModel'] = function ($container) use ($options) {
     return new UserModel($options);
 };
 
@@ -50,10 +53,14 @@ $container['token'] = function ($container) {
 
 
 //PDO conexion para autenticar usuarios para la obtencion del token
-$container['pdo'] = function ($container)  use($options) {
+$container['pdo'] = function ($container) use ($options) {
     //$container['logger']->addInfo("DSN=", array('dsn' => DSN));
-    $pdo = new PDO ("mysql:host=" . $options['host'] . ";dbname=" . $options['dbname'], $options['user'], $options['user']);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    try {
+        $pdo = new PDO ("mysql:host=" . $options['host'] . ";dbname=" . $options['dbname'], $options['user'], $options['user']);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    } catch (Exception $e) {
+        throw $e;
+    }
     return $pdo;
 };
 
@@ -72,16 +79,17 @@ $container['view'] = function ($container) {
     $view->addExtension(new Slim\Views\TwigExtension($container['router'], $basePath));
     
     //añade una variable global a las vistas
-    $view->getEnvironment()->addGlobal('auth',[
+    $view->getEnvironment()->addGlobal('auth', [
         'issignin' => $container['auth']->isSignIn()
         
-    ]);   
+    ]);
+    $view->getEnvironment()->addGlobal('saludar', 'Hola Mundo');
     
     return $view;
 };
 
 //Gestion de logs
-$container['errorlog'] = function($container) {
+$container['errorlog'] = function ($container) {
     $logger = new \Monolog\Logger('errorlog');
     $file_handler = new \Monolog\Handler\StreamHandler(BASE_PATH ."/logs/error.log");
     $logger->pushHandler($file_handler);

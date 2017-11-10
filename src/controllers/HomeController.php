@@ -17,12 +17,14 @@ final class HomeController extends BaseController{
 
     public function index($request, $response, $args)
     {
+        print_r($_COOKIE);
+        die();
         return $response->withJson(array('status'=>'API funcionando...'), 200);
     }
 
     public function  test ($request, $response, $args){
         
-        if($this->hasScope(array('area'=>'todo','scope'=>self::PERM_ADD))){
+        if($this->hasScope(array('area'=>'todo','scope'=>self::PERM_SELECT))){
             return "HomeController::test";
         }else{
             return $response->withJson(array('error'=>'No tiene autorizacion'), 401);

@@ -14,8 +14,10 @@ class AuthMiddleware{
    }
 
    public function __invoke($request, $response,$next){
+      echo $_COOKIE['token'];
+      
+      if(!isset($_COOKIE['token'])){
 
-      if(!isset($_SESSION['user'])){
         return $response->withRedirect($this->container->router->pathFor('auth.signin'));
       } 
 

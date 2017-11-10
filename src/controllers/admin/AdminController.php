@@ -16,7 +16,7 @@ final class AdminController extends BaseController{
         $categories = $this->container->get('CategoriesModel');
       
         $data['nombre'] = "Sergio";
-        $data['edad'] = 24;
+        $data['edad'] = 13;
         $data['categorias'] = $categories->getAll();
         $data['titulo']= "INDEX";
 

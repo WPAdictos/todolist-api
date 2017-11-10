@@ -3,7 +3,7 @@
 require BASE_PATH . '/vendor/autoload.php';
 require BASE_PATH . '/src/config/'.ENTORNO.'/config.php';
 
-session_start(); 
+//session_start(); 
 
 $dotenv = new Dotenv\Dotenv(BASE_PATH);
 $dotenv->load();
